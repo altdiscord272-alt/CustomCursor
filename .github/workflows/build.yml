@@ -1,14 +1,50 @@
+Skip to content
+CustomCursor
+Repository navigation
+Code
+Pull requests
+Actions
+Projects
+Comparing changes
+Choose two branches to see what’s changed or to start a new pull request. If you need to, you can also  or learn more about diff comparisons.
+ 
+...
+ 
+ Able to merge. These branches can be automatically merged.
+Discuss and review the changes in this comparison with others. Learn about pull requests
+ 1 commit
+ 1 file changed
+ 1 contributor
+Commits on Nov 1, 2026
+Update build.yml
+
+@altdiscord272-alt
+altdiscord272-alt authored now
+ Showing  with 22 additions and 6 deletions.
+ 28 changes: 22 additions & 6 deletions28  
+.github/workflows/build.yml
+Original file line number	Diff line number	Diff line change
+@@ -1,21 +1,37 @@
+
 name: Build APK
+
 on:
   push:
     branches: [ main ]
   workflow_dispatch:
+
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v5
         with:
           java-version: '17'
           distribution: 'temurin'
@@ -16,7 +52,30 @@ jobs:
       - run: chmod +x gradlew
       - run: ./gradlew assembleDebug --no-daemon
       - uses: actions/upload-artifact@v4
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+        with:
+          packages: 'platform-tools platforms;android-35 build-tools;35.0.0'
+
+      - name: Build APK
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleDebug --no-daemon
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
         with:
           name: CustomCursor-APK
           path: app/build/outputs/apk/debug/app-debug.apk
-          retention-days: 30
+Footer
+© 2026 GitHub, Inc.
+Footer navigation
+Terms
+Privacy
+Security
+Status
+Community
+Docs
+Contact
+Manage cookies
+Do not share my personal information
